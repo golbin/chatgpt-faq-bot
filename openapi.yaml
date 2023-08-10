@@ -1,0 +1,76 @@
+openapi: 3.0.1
+info:
+  title: Prompt Engineering FAQ
+  description: Search and get prompt engineering FAQ
+  version: "v1"
+servers:
+  - url: http://localhost:8000
+paths:
+  /query:
+    post:
+      summary: Query
+      operationId: query
+      description: Get the answer and question about prompt engineering
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QueryRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QueryResponse"
+components:
+  schemas:
+    QueryRequest:
+      title: QueryRequest
+      required:
+        - query
+        - top_k
+      type: object
+      properties:
+        query:
+          title: Query
+          type: string
+          description: Used to search for a prompt engineering based on keywords. For example, ?query=react will return a list of relivant faq.
+        top_k:
+          title: Top K
+          type: integer
+          default: 3
+          description: Used to limit the number of results returned. For example, ?top_k=5 will return a list of 5 faq. if not specified, the default value is 3.
+    QueryResponse:
+      title: QueryResponse
+      required:
+        - results
+      type: object
+      properties:
+        results:
+          title: Results
+          type: array
+          items:
+            $ref: "#/components/schemas/QueryResult"
+    QueryResult:
+      title: QueryResult
+      required:
+        - id
+        - score
+        - question
+        - answer
+      type: object
+      properties:
+        id:
+          title: Id
+          type: number
+        score:
+          title: Score
+          type: number
+        question:
+          title: Question
+          type: string
+        answer:
+          title: Answer
+          type: string

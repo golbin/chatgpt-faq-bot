@@ -1,0 +1,4 @@
+fastapi==0.99.1
+numpy=1.24.1
+openai=0.27.8
+slack_bolt=1.18.0
