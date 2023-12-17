@@ -1,10 +1,13 @@
 import os
 import csv
-import openai
+from openai import OpenAI
+
 import numpy as np
 from pprint import pprint
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openAIclient = OpenAI(
+    api_key=os.getenv("OPENAI_API_KEY")
+)
 
 
 def load(filepath):
@@ -25,8 +28,8 @@ def load(filepath):
 
 
 def get_embedding(content, model='text-embedding-ada-002'):
-    response = openai.Embedding.create(input=content, model=model)
-    vector = response['data'][0]['embedding']
+    response = openAIclient.embeddings.create(input=content, model=model)
+    vector = response.data[0].embedding
     return vector
 
 
